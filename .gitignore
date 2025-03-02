@@ -1,0 +1,55 @@
+# Compiled source #
+###################
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.dylib
+
+# Packages #
+############
+*.jar
+*.war
+*.ear
+
+# Logs and databases #
+#######################
+*.log
+*.sqlite
+*.db
+
+# OS-generated files #
+######################
+.DS_Store
+Thumbs.db
+
+# Dependencies #
+################
+node_modules/
+bower_components/
+
+# Python #
+############
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# IDE-specific files #
+#####################
+.idea/
+.vscode/
+*.iml
+
+# Git-related #
+###############
+*.swp
+
+# Miscellaneous #
+################
+dist/
+build/
+coverage/
+*.bak
+*.tmp
