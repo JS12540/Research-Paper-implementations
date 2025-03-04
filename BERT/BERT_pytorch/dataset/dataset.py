@@ -105,6 +105,25 @@ class BERTDataset(Dataset):
         t1 = [self.vocab.sos_index] + t1_random + [self.vocab.eos_index]
         t2 = t2_random + [self.vocab.eos_index]
 
-        t1_label = [self.vocab.pad_index] + t1_label + [self.vocab.pad_index]
+        t1_label = [self.vocab.pad_index] + t1_label + [self.vocab.pad_index] # masked tokens (set to their original token ID) while non-masked tokens are replaced with [PAD].
         t2_label = t2_label + [self.vocab.pad_index]
 
+        # segment_label differentiates t1 and t2
+        segment_label = ([1 for _ in range(len(t1))] + [2 for _ in range(len(t2))])[:self.seq_len]
+
+        bert_input = (t1 + t2)[:self.seq_len]
+
+        bert_label = (t1_label + t2_label)[:self.seq_len]
+
+        # If length of sentence is less than seq_len than pad.
+        padding = [self.vocab.pad_index for _ in range(self.seq_len - len(bert_input))]
+        bert_input.extend(padding), bert_label.extend(padding), segment_label.extend(padding) 
+
+        output = {
+            "bert_input": torch.tensor(bert_input),
+            "bert_label": torch.tensor(bert_label),
+            "segment_label": torch.tensor(segment_label),
+            "is_next": torch.tensor(is_next_label)
+        }
+
+        return output
